@@ -1,3 +1,5 @@
+package tcv.core
+
 trait ValidationMarker[T, +Self <: ValidationMarker[T, Self]]:
   // this self type makes it impossible to compile things like: trait Even extends ValidationMarker[Int, NonZero]
   self: Self =>

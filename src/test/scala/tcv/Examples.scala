@@ -1,5 +1,5 @@
+import tcv.api.*
 import Stubs.{*, given}
-import Valid.*
 
 object Examples:
   @main

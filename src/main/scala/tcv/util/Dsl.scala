@@ -1,7 +1,8 @@
-sealed trait Valid[T, +VM <: ValidationMarker[T, VM]]:
-  val value: T
+package tcv.util
 
-object Valid:
+import tcv.core.*
+
+object Dsl:
   extension [T, VM <: ValidationMarker[T, VM]](o: Option[Valid[T, VM]])
     def and[U <: ValidationMarker[T, U]](using
         u: ValidationMarker[T, U]
@@ -16,6 +17,3 @@ object Valid:
         vm: ValidationMarker[T, VM]
     ): Option[Valid[T, VM]] =
       vm.validate(t)
-
-private case class ValidImpl[T, +VM <: ValidationMarker[T, VM]](value: T)
-    extends Valid[T, VM]
