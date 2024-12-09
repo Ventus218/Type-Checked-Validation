@@ -1,4 +1,4 @@
-import Stubs.*
+import Stubs.{*, given}
 
 object Examples:
   @main
@@ -19,3 +19,9 @@ object Examples:
     yield (nonZeroEven)) match
       case None        => ()
       case Some(value) => doSomething(value)
+
+  @main
+  def example3: Unit =
+    Even.validate(3).and[NonZero].and[Positive] match
+      case None        => ()
+      case Some(value) => ()
