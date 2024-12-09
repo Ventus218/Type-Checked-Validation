@@ -5,6 +5,6 @@ lazy val root = project
   .settings(
     name := "type-checked-validation",
     version := "0.1.0-SNAPSHOT",
-
-    scalaVersion := scala3Version
+    scalaVersion := scala3Version,
+    libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.19" % Test
   )
