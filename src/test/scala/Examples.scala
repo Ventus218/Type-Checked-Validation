@@ -1,4 +1,5 @@
 import Stubs.{*, given}
+import Valid.*
 
 object Examples:
   @main
@@ -22,6 +23,6 @@ object Examples:
 
   @main
   def example3: Unit =
-    Even.validate(3).and[NonZero].and[Positive] match
+    3.is[Even].and[NonZero].and[Positive] match
       case None        => ()
       case Some(value) => ()

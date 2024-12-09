@@ -11,5 +11,11 @@ object Valid:
         b <- u.validate(a)
       yield (b)
 
+  extension [T](t: T)
+    def is[VM <: ValidationMarker[T, VM]](using
+        vm: ValidationMarker[T, VM]
+    ): Option[Valid[T, VM]] =
+      vm.validate(t)
+
 private case class ValidImpl[T, +VM <: ValidationMarker[T, VM]](value: T)
     extends Valid[T, VM]
