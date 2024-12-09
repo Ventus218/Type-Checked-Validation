@@ -1,6 +1,6 @@
 package tcv
 
-import tcv.api.*
+import tcv.Api.*
 import Stubs.{*, given}
 
 object Examples:

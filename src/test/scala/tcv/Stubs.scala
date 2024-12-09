@@ -1,6 +1,6 @@
 package tcv
 
-import tcv.api.*
+import tcv.Api.*
 
 object Stubs:
   trait Even extends ValidationMarker[Int, Even]

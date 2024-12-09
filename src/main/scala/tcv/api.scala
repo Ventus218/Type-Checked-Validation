@@ -1,6 +1,6 @@
 package tcv
 
-object api:
+object Api:
   export core.Valid
   export core.ValidationMarker
   export tcv.util.Dsl.*
