@@ -25,7 +25,6 @@ object Dsl:
         vm: ValidationMarker[T, VM],
         bf: BuildFrom[Iter[T], Valid[T, VM], Iter[Valid[T, VM]]]
     ): Option[Iter[Valid[T, VM]]] =
-      val validated = iter.map(vm.validate)
-      if validated.forall(_.isDefined) then
-        Some(bf.fromSpecific(iter)(validated.flatten))
+      val validated = iter.collect({ case vm(valid) => valid })
+      if validated.size == iter.size then Some(validated)
       else None

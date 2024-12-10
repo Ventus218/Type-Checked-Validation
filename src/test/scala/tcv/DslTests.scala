@@ -26,6 +26,7 @@ class DslTests extends AnyFlatSpec with should.Matchers:
     val values = Seq(-2, -1, 1, 2)
     val nonZeroValues = values.are[NonZero]
     nonZeroValues shouldBe defined
+    nonZeroValues.get.map(_.value) should contain theSameElementsInOrderAs(values)
 
     def doSomething(iterable: Iterable[Valid[Int, NonZero]]): Unit = ()
     doSomething(nonZeroValues.get)
