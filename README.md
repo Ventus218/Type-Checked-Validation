@@ -130,4 +130,9 @@ private def heavyComputation4(a: Int, b: Valid[Int, NonZero]): Int =
 
 def manyHeavyComputations4(a: Int, seq: Seq[Valid[Int, NonZero]]): Seq[Int] =
   seq.map(b => heavyComputation4(a, b))
+
+// On the caller site:
+Seq(3, 4, 5).are[NonZero] match
+  case None         => println("Invalid input!")
+  case Some(values) => manyHeavyComputations4(1, values)
 ```
