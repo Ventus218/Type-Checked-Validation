@@ -39,12 +39,8 @@ class CoreTests extends AnyFlatSpec with should.Matchers:
 
   "function calls with wrongly validated arguments" should "not pass type checking" in:
     def doSomething(a: Valid[Int, Even]): Unit = ()
-    NonZero.validate(3) match
-      case None        => ()
-      case Some(valid) => "doSomething(valid)" shouldNot typeCheck
+    "doSomething(NonZero.validate(3).get)" shouldNot typeCheck
 
   "function calls with non-fully validated arguments" should "not pass type checking" in:
     def doSomething(a: Valid[Int, Even & NonZero]): Unit = ()
-    NonZero.validate(2) match
-      case None        => ()
-      case Some(valid) => "doSomething(valid)" shouldNot typeCheck
+    "doSomething(NonZero.validate(2))" shouldNot typeCheck
