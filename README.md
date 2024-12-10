@@ -47,8 +47,22 @@ iWantAnEvenNonZeroNumber(evenNonZero.get) // While this correctly compiles
 // Note that i've unsafely unwrapped the Option result just to make the example clearer
 ```
 
-## Dsl
-<!-- TODO -->
+## DSL
+The syntax:
+```scala
+2.is[Even].and[NonZero].and[Positive]...
+```
+
+is just syntactic sugar for:
+```scala
+for
+  even <- Even.validate(2)
+  evenNonZero <- NonZero.validate(even)
+  evenNonZeroPositive <- Positive.validate(evenNonZero)
+yield(evenNonZeroPositive)
+```
+
+
 
 ## Why it's useful
 <!-- TODO -->
