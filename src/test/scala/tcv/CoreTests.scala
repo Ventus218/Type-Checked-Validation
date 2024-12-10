@@ -20,8 +20,9 @@ class CoreTests extends AnyFlatSpec with should.Matchers:
       even <- Even.validate(2)
       nonZeroEven <- NonZero.validate(even)
     yield (nonZeroEven)) match
-      case None        => ()
-      case Some(valid) => doSomething(valid)
+      case None => ()
+      case Some(valid) =>
+        doSomething(valid) // here we just assert that the code compiles
 
   it should "produce an intersection of n validation markers" in:
     def doSomething(a: Valid[Int, Even & NonZero & Positive]): Unit = ()
@@ -30,8 +31,9 @@ class CoreTests extends AnyFlatSpec with should.Matchers:
       nonZeroEven <- NonZero.validate(even)
       nonZeroEvenPositive <- Positive.validate(nonZeroEven)
     yield (nonZeroEvenPositive)) match
-      case None        => ()
-      case Some(valid) => doSomething(valid)
+      case None => ()
+      case Some(valid) =>
+        doSomething(valid) // here we just assert that the code compiles
 
   "function calls with non-validated arguments" should "not pass type checking" in:
     def doSomething(a: Valid[Int, Even]): Unit = ()
