@@ -103,7 +103,7 @@ private def heavyComputation2(a: Int, b: Int): Int =
   ???
 
 def manyHeavyComputations2(a: Int, seq: Seq[Int]): Seq[Int] =
-  seq.foreach(b => require(b != 0))
+  require(!seq.exists(_ == 0))
   seq.map(b => heavyComputation2(a, b))
 ```
 
@@ -119,7 +119,7 @@ private def heavyComputation3(a: Int, b: Int): Int =
   ???
 
 def manyHeavyComputations3(a: Int, seq: Seq[Int]): Seq[Int] =
-  seq.foreach(b => require(b != 0))
+  require(!seq.exists(_ == 0))
   seq.map(b => heavyComputation3(a, b))
 ```
 

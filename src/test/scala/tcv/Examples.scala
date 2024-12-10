@@ -53,7 +53,7 @@ object Examples:
     ???
 
   def manyHeavyComputations2(a: Int, seq: Seq[Int]): Seq[Int] =
-    seq.foreach(b => require(b != 0))
+    require(!seq.exists(_ == 0))
     seq.map(b => heavyComputation2(a, b))
 
   private def heavyComputation3(a: Int, b: Int): Int =
@@ -61,7 +61,7 @@ object Examples:
     ???
 
   def manyHeavyComputations3(a: Int, seq: Seq[Int]): Seq[Int] =
-    seq.foreach(b => require(b != 0))
+    require(!seq.exists(_ == 0))
     seq.map(b => heavyComputation3(a, b))
 
   private def heavyComputation4(a: Int, b: Valid[Int, NonZero]): Int =
