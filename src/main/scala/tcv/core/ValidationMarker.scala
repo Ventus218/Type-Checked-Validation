@@ -10,7 +10,7 @@ trait ValidationMarker[T, +Self <: ValidationMarker[T, Self]]:
 
   def validate[VM <: ValidationMarker[T, VM]](
       otherValid: Valid[T, VM]
-  ): Option[ValidImpl[T, VM & Self]] =
+  ): Option[Valid[T, VM & Self]] =
     validate(otherValid.value) match
       case Some(value) => Some(ValidImpl(value.value))
       case None        => None
