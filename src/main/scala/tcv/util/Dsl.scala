@@ -22,8 +22,7 @@ object Dsl:
 
   extension [T, Iter[X] <: IterableOps[X, Iter, Iter[X]]](iter: Iter[T])
     def are[VM <: ValidationMarker[T, VM]](using
-        vm: ValidationMarker[T, VM],
-        bf: BuildFrom[Iter[T], Valid[T, VM], Iter[Valid[T, VM]]]
+        vm: ValidationMarker[T, VM]
     ): Option[Iter[Valid[T, VM]]] =
       val validated = iter.collect({ case vm(valid) => valid })
       if validated.size == iter.size then Some(validated)
