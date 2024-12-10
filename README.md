@@ -81,3 +81,53 @@ error <-|------+       +------------------------+   |
         +-------------------------------------------+
 ```
 
+### Avoid redundant validation
+Have you ever been in the situation of knowing that a specific property holds but in order to keep your code future-proof you just end up validating it again?
+
+Let's make a stupid example:
+
+```scala
+private def heavyComputation(a: Int, b: Int): Int =
+  require(b != 0)
+  ???
+
+def manyHeavyComputations(a: Int, seq: Seq[Int]): Seq[Int] =
+  seq.map(b => heavyComputation(a, b))
+```
+
+It would be better to check that every single element of `seq` is not 0 BEFORE actually performing the operation. Because if the last element of `seq` was 0 we would have almost completed the computation just for failing at the last step.
+
+So you decide to move the validation into `manyHeavyComputations`
+```scala
+private def heavyComputation2(a: Int, b: Int): Int =
+  ???
+
+def manyHeavyComputations2(a: Int, seq: Seq[Int]): Seq[Int] =
+  seq.foreach(b => require(b != 0))
+  seq.map(b => heavyComputation2(a, b))
+```
+
+This is more efficient, but you know that software changes, and someday it may happen that:
+- other functions will use `heavyComputation` forgetting about input validation
+- maybe changes to the implementation of `manyHeavyComputations` will get rid of the input check
+
+So, to make your code future-proof, you end up validating the input again inside `heavyComputation`:
+
+```scala
+private def heavyComputation3(a: Int, b: Int): Int =
+  require(b != 0) // redundant
+  ???
+
+def manyHeavyComputations3(a: Int, seq: Seq[Int]): Seq[Int] =
+  seq.foreach(b => require(b != 0))
+  seq.map(b => heavyComputation3(a, b))
+```
+
+This exact problem can be avoided by exploiting TCV:
+```scala
+private def heavyComputation4(a: Int, b: Valid[Int, NonZero]): Int =
+  ???
+
+def manyHeavyComputations4(a: Int, seq: Seq[Valid[Int, NonZero]]): Seq[Int] =
+  seq.map(b => heavyComputation4(a, b))
+```
