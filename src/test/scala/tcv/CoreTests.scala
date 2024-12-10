@@ -48,9 +48,12 @@ class CoreTests extends AnyFlatSpec with should.Matchers:
     "doSomething(NonZero.validate(2))" shouldNot typeCheck
 
   "unapply" should "behave the same as validate" in:
-    val values = Seq(1, 2, 3)
+    val values = Seq(0, 1, 2, 3)
     values.foreach: v =>
-      Even.validate(v) shouldBe (v match
-        case Even(valid) => Some(valid)
-        case _           => None
-      )
+      val even = Even.validate(v)
+      even shouldBe Even.unapply(v)
+
+      even match
+        case None => ()
+        case Some(value) =>
+          NonZero.validate(value) shouldBe NonZero.unapply(value)

@@ -16,3 +16,7 @@ trait ValidationMarker[T, +Self <: ValidationMarker[T, Self]]:
       case None        => None
 
   def unapply(value: T): Option[Valid[T, Self]] = validate(value)
+
+  def unapply[VM <: ValidationMarker[T, VM]](
+      value: Valid[T, VM]
+  ): Option[Valid[T, VM & Self]] = validate(value)
