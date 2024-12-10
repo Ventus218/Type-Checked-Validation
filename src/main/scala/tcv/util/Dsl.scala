@@ -1,6 +1,8 @@
 package tcv.util
 
 import tcv.core.*
+import scala.collection.IterableOps
+import scala.collection.BuildFrom
 
 object Dsl:
   extension [T, VM <: ValidationMarker[T, VM]](o: Option[Valid[T, VM]])
@@ -17,3 +19,13 @@ object Dsl:
         vm: ValidationMarker[T, VM]
     ): Option[Valid[T, VM]] =
       vm.validate(t)
+
+  extension [T, CC[X] <: IterableOps[X, CC, CC[X]]](iter: CC[T])
+    def are[VM <: ValidationMarker[T, VM]](using
+        vm: ValidationMarker[T, VM],
+        bf: BuildFrom[CC[T], Valid[T, VM], CC[Valid[T, VM]]]
+    ): Option[CC[Valid[T, VM]]] =
+      val validated = iter.map(vm.validate)
+      if validated.forall(_.isDefined) then
+        Some(bf.fromSpecific(iter)(validated.flatten))
+      else None

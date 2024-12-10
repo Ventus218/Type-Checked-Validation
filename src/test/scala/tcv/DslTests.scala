@@ -21,3 +21,16 @@ class DslTests extends AnyFlatSpec with should.Matchers:
         nonZeroEvenPositive <- Positive.validate(nonZeroEven)
       yield (nonZeroEvenPositive)
       value.is[Even].and[NonZero].and[Positive] shouldBe expected
+
+  "Iterable extendsion method \"are\"" should "validate every single item" in:
+    val values = Seq(-2, -1, 1, 2)
+    val nonZeroValues = values.are[NonZero]
+    nonZeroValues shouldBe defined
+
+    def doSomething(iterable: Iterable[Valid[Int, NonZero]]): Unit = ()
+    doSomething(nonZeroValues.get)
+
+  it should "produce an empty option if one or more items do not satisfy the validation property" in:
+    val values = Seq(-2, -1, 0, 1, 2)
+    val nonZeroValues = values.are[NonZero]
+    nonZeroValues should not be defined
