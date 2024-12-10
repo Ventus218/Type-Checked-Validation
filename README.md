@@ -62,7 +62,22 @@ for
 yield(evenNonZeroPositive)
 ```
 
-
-
 ## Why it's useful
-<!-- TODO -->
+
+### Keeping validation outside of your domain logic
+Now you're able to define functions that express validation requirements.
+This means that you can define your domain logic without worrying about validation and related error handling.
+
+```
+        +-------------------------------------------+
+        |              Validation Layer             |
+        |                                           |
+        |              +------------------------+   |
+        |              |                        |   |
+data ---|-> validate --|->    Domain Logic      |   |
+        |      |       |                        |   |
+error <-|------+       +------------------------+   |
+        |                                           |
+        +-------------------------------------------+
+```
+
