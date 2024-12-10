@@ -2,7 +2,7 @@ package tcv.util
 
 import tcv.core.*
 import scala.collection.IterableOps
-import scala.collection.BuildFrom
+import scala.annotation.targetName
 
 object Dsl:
   extension [T, VM <: ValidationMarker[T, VM]](o: Option[Valid[T, VM]])
@@ -27,3 +27,29 @@ object Dsl:
       val validated = iter.collect({ case vm(valid) => valid })
       if validated.size == iter.size then Some(validated)
       else None
+
+  extension [T, Iter[X] <: IterableOps[
+    X,
+    Iter,
+    Iter[X]
+  ], VM <: ValidationMarker[T, VM]](iter: Iter[Valid[T, VM]])
+    def and[U <: ValidationMarker[T, U]](using
+        u: ValidationMarker[T, U]
+    ): Option[Iter[Valid[T, VM & U]]] =
+      val validated = iter.collect({ case u(valid) => valid })
+      if validated.size == iter.size then Some(validated)
+      else None
+
+  extension [T, Iter[X] <: IterableOps[
+    X,
+    Iter,
+    Iter[X]
+  ], VM <: ValidationMarker[T, VM]](iterOpt: Option[Iter[Valid[T, VM]]])
+    @targetName("andAre")
+    def and[U <: ValidationMarker[T, U]](using
+        u: ValidationMarker[T, U]
+    ): Option[Iter[Valid[T, VM & U]]] =
+      for
+        a <- iterOpt
+        b <- a.and[U]
+      yield (b)

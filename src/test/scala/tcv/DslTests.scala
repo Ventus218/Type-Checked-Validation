@@ -35,3 +35,12 @@ class DslTests extends AnyFlatSpec with should.Matchers:
     val values = Seq(-2, -1, 0, 1, 2)
     val nonZeroValues = values.are[NonZero]
     nonZeroValues should not be defined
+
+  "Iterable extendsion method \"and\"" should "behave as a for comprehension" in:
+    val values = Seq(-2, -1, 0, 1, 2)
+    val expected = for
+      even <- values.are[Even]
+      nonZeroEven <- even.and[NonZero]
+      nonZeroEvenPositive <- nonZeroEven.and[Positive]
+    yield (nonZeroEvenPositive)
+    values.are[Even].and[NonZero].and[Positive] shouldBe expected
