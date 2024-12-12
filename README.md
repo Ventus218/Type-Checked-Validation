@@ -1,6 +1,6 @@
 # Type-Checked Validation
 
-The aim of Type-Checked Validation (TCV) is to let you mark the object that you've just validated so that the fact that it was validated can be known at compile time!
+The aim of Type-Checked Validation (TCV) is to let you mark objects that you've just validated so that the fact that they were validated is known at compile time! (If you didn't get the point jump straight to the [Why it's useful](#why-its-useful) section)
 
 ## Example usage
 
